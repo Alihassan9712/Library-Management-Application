@@ -1,4 +1,4 @@
-const APP_NAME = "Library Management System";
+const APP_NAME = "Library Management System | Develop";
 const STORAGE_KEY = "reading-room-books-v1";
 
 const starterBooks = [
@@ -41,6 +41,7 @@ const elements = {
   formMessage: document.querySelector("#form-message"),
   search: document.querySelector("#search"),
   statusFilter: document.querySelector("#status-filter"),
+  sortOrder: document.querySelector("#sort-order"),
   bookList: document.querySelector("#book-list"),
   emptyState: document.querySelector("#empty-state"),
   listCount: document.querySelector("#list-count"),
@@ -153,16 +154,21 @@ function renderBook(book) {
 function getVisibleBooks() {
   const searchTerm = elements.search.value.trim().toLocaleLowerCase();
   const status = elements.statusFilter.value;
-  return books.filter((book) => {
-    const matchesSearch =
-      book.title.toLocaleLowerCase().includes(searchTerm) ||
-      book.author.toLocaleLowerCase().includes(searchTerm);
-    const matchesStatus =
-      status === "all" ||
-      (status === "available" && !book.checkedOut) ||
-      (status === "checked-out" && book.checkedOut);
-    return matchesSearch && matchesStatus;
-  });
+  return books
+    .filter((book) => {
+      const matchesSearch =
+        book.title.toLocaleLowerCase().includes(searchTerm) ||
+        book.author.toLocaleLowerCase().includes(searchTerm);
+      const matchesStatus =
+        status === "all" ||
+        (status === "available" && !book.checkedOut) ||
+        (status === "checked-out" && book.checkedOut);
+      return matchesSearch && matchesStatus;
+    })
+    .sort((first, second) => {
+      const order = first.title.localeCompare(second.title);
+      return elements.sortOrder.value === "descending" ? -order : order;
+    });
 }
 
 function render() {
@@ -239,6 +245,7 @@ elements.form.addEventListener("submit", (event) => {
 elements.cancelEdit.addEventListener("click", resetForm);
 elements.search.addEventListener("input", render);
 elements.statusFilter.addEventListener("change", render);
+elements.sortOrder.addEventListener("change", render);
 
 elements.bookList.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
