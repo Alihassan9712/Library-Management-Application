@@ -1,4 +1,4 @@
-const APP_NAME = "Library Management System";
+const APP_NAME = "Library Management System | Feature";
 const STORAGE_KEY = "reading-room-books-v1";
 
 const starterBooks = [
@@ -41,6 +41,7 @@ const elements = {
   formMessage: document.querySelector("#form-message"),
   search: document.querySelector("#search"),
   statusFilter: document.querySelector("#status-filter"),
+  exportButton: document.querySelector("#export-books"),
   bookList: document.querySelector("#book-list"),
   emptyState: document.querySelector("#empty-state"),
   listCount: document.querySelector("#list-count"),
@@ -195,6 +196,39 @@ function resetForm() {
   elements.formMessage.textContent = "";
 }
 
+function exportBooksCsv() {
+  const rows = [
+    ["Title", "Author", "ISBN", "Genre", "Status"],
+    ...books.map((book) => [
+      book.title,
+      book.author,
+      book.isbn,
+      book.category,
+      book.checkedOut ? "Checked out" : "Available",
+    ]),
+  ];
+  const csv = rows
+    .map((row) =>
+      row
+        .map((value) => {
+          const field = String(value).replace(/^[\t\r=+\-@]/, "'$&");
+          return `"${field.replaceAll('"', '""')}"`;
+        })
+        .join(","),
+    )
+    .join("\r\n");
+  const downloadUrl = URL.createObjectURL(
+    new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" }),
+  );
+  const downloadLink = document.createElement("a");
+  downloadLink.href = downloadUrl;
+  downloadLink.download = "library-books.csv";
+  document.body.append(downloadLink);
+  downloadLink.click();
+  downloadLink.remove();
+  window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+}
+
 function beginEdit(book) {
   elements.id.value = book.id;
   elements.title.value = book.title;
@@ -239,6 +273,7 @@ elements.form.addEventListener("submit", (event) => {
 elements.cancelEdit.addEventListener("click", resetForm);
 elements.search.addEventListener("input", render);
 elements.statusFilter.addEventListener("change", render);
+elements.exportButton.addEventListener("click", exportBooksCsv);
 
 elements.bookList.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
