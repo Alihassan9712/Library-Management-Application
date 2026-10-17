@@ -324,6 +324,18 @@ h1 {
   font-weight: 600;
 }
 
+.collection-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.export-button {
+  min-height: 31px;
+  padding: 0 10px;
+  font-size: 10px;
+}
+
 .toolbar {
   display: flex;
   gap: 10px;
