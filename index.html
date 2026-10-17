@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#173b32">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-content">
+        <a class="brand" href="./" aria-label="Library Management System home">
+          <span class="brand-mark" aria-hidden="true">L</span>
+          <span>THE READING ROOM</span>
+        </a>
+        <span class="header-note">A little more knowledge, every day.</span>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">YOUR PERSONAL COLLECTION</p>
+        <h1 id="page-title">Library Management System</h1>
+        <p class="intro-copy">Keep your books in order and find your next great read.</p>
+      </section>
+
+      <section class="stats" aria-label="Collection summary">
+        <article class="stat-card">
+          <span class="stat-label">TOTAL BOOKS</span>
+          <strong id="total-count" class="stat-value">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">AVAILABLE</span>
+          <strong id="available-count" class="stat-value">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">CHECKED OUT</span>
+          <strong id="checked-out-count" class="stat-value">0</strong>
+        </article>
+      </section>
+
+      <section class="workspace" aria-label="Manage your books">
+        <section class="panel add-panel" aria-labelledby="form-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">COLLECTION</p>
+              <h2 id="form-title">Add a book</h2>
+            </div>
+            <span class="heading-icon" aria-hidden="true">+</span>
+          </div>
+          <form id="book-form">
+            <input id="book-id" name="book-id" type="hidden">
+            <label for="title">Book title</label>
+            <input id="title" name="title" type="text" maxlength="120" placeholder="e.g. The Midnight Library" required>
+
+            <label for="author">Author</label>
+            <input id="author" name="author" type="text" maxlength="100" placeholder="e.g. Matt Haig" required>
+
+            <div class="form-row">
+              <div>
+                <label for="isbn">ISBN <span class="optional">(optional)</span></label>
+                <input id="isbn" name="isbn" type="text" maxlength="20" placeholder="978-...">
+              </div>
+              <div>
+                <label for="category">Genre <span class="optional">(optional)</span></label>
+                <input id="category" name="category" type="text" maxlength="40" placeholder="Fiction">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="button button-primary" id="submit-button" type="submit">Add to collection</button>
+              <button class="button button-quiet is-hidden" id="cancel-edit" type="button">Cancel</button>
+            </div>
+            <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="panel collection-panel" aria-labelledby="collection-title">
+          <div class="panel-heading collection-heading">
+            <div>
+              <p class="eyebrow">ON YOUR SHELF</p>
+              <h2 id="collection-title">Your books</h2>
+            </div>
+            <span class="book-count" id="list-count">0 books</span>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-box" for="search">
+              <span aria-hidden="true">⌕</span>
+              <input id="search" type="search" placeholder="Search title or author" autocomplete="off">
+            </label>
+            <label class="filter-wrap" for="status-filter">
+              <span class="visually-hidden">Filter books by status</span>
+              <select id="status-filter">
+                <option value="all">All books</option>
+                <option value="available">Available</option>
+                <option value="checked-out">Checked out</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="book-list" class="book-list" aria-live="polite"></div>
+          <div id="empty-state" class="empty-state">
+            <span class="empty-icon" aria-hidden="true">▤</span>
+            <h3>Your shelf is waiting</h3>
+            <p>Add a book with the form to start your collection.</p>
+          </div>
+          <p class="storage-message" id="storage-message" role="status" aria-live="polite"></p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Your collection is saved in this browser.</p>
+    </footer>
+  </body>
+</html>
